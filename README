@@ -11,7 +11,7 @@ Installation
 
     * Subversion
 
-            $ svn co http://svn.symfony-project.com/plugins/pmModuleEnablerPlugin/trunk pmModuleEnablerPlugin
+            $ svn co http://svn.symfony-project.com/plugins/pmPropelWorkflowableBehaviorPlugin/trunk pmPropelWorkflowableBehaviorPlugin
 
   * Add the behavior in your propel model:
 
