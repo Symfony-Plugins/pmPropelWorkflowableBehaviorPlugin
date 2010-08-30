@@ -1,6 +1,6 @@
 <?php
 
 sfPropelBehavior::registerMethods('workflowable', array(
-  array('pmPropelWorkflowableBehavior', 'stepForward'),
-  array('pmPropelWorkflowableBehavior', 'stepBackward')
+  array('WorkflowableBehavior', 'stepForward'),
+  array('WorkflowableBehavior', 'stepBackward')
 ));
