@@ -1,51 +1,71 @@
-pmPropelWorkflowableBehaviorPlugin
-==================================
+# pmPropelWorkflowableBehaviorPlugin
 
 The `pmPropelWorkflowableBehaviorPlugin` provides a behavior that adds workflow
 capabilities to a Propel object.
 
-Installation
-------------
+## Installation
 
   * Install the plugin
 
-    * Subversion
-
+    * via subversion
+    
+            [bash]
             $ svn co http://svn.symfony-project.com/plugins/pmPropelWorkflowableBehaviorPlugin/trunk pmPropelWorkflowableBehaviorPlugin
+    
+    * via the symfony plugin system
+    
+            [bash]
+            $ ./symfony pl:i pmPropelWorkflowableBehaviorPlugin
 
-  * Add the behavior in your propel model:
+  * Add the behavior in propel.ini file:
+  
+        [php]
+        propel.behavior.workflowable.class = plugins.pmPropelWorkflowableBehaviorPlugin.lib.WorkflowableBehavior
 
-      [php]
-      <?php
+## Usage
 
-      class PurchaseOrder extends BasePurchaseOrder
-      {
-      }
+  * Add the behavior in your propel class:
 
-      sfPropelBehavior::add('PurchaseOrder', array('workflowable', array(
-        'status_column_name' => 'status',     // this is the default value, a
-                                              // column name
-        'possible_status_values' => array()   // this is the default value, an
-                                              // array of possible values
-      )));
+        [yml]
+        # in schema.yml file
+        propel:
+          purchase_order:
+            item_name:
+              type: varchar(255)
+              required: true
+            price:
+              type: decimal
+              size: 6
+              scale: 2
+              required: true
+            status:
+              type: integer
+              default: 0
+              required: true
+            _propel_behaviors:
+              workflowable:
+                possible_status_values: 0, 1, 2
 
   * Rebuild your model
 
-      [bash]
-      $ ./symfony propel:build-all
+        [bash]
+        $ ./symfony propel:build-model
 
-Methods
--------
+## Methods
 
   * stepForward: step forward in the workflow
 
-      [php]
-      $purchase_order->stepForward();
+        [php]
+        $purchase_order->stepForward();
 
   * stepBackward: step backward in the workflow
 
-      [php]
-      $purchase_order->stepBackward();
+        [php]
+        $purchase_order->stepBackward();
+  
+  * canStepForward: returns true if the object can step forward in the workflow.
+  
+  * canStepBackward: returns true if the object can step backward in the workflow.
 
 If the model contains a method named 'canStepForward' (or 'canStepBackward'),
 it's used to determine if the object can step forward (or can step backward).
@@ -53,3 +73,7 @@ Otherwise, the object steps forward (or backward) only if the next (or previous)
 value is valid (is in possible_status_values array).
 
 If the model can't step forward (or backward) an exeption is thrown.
+
+## TODO
+
+  * Figure out how to jump between steps.
